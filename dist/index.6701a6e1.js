@@ -3920,18 +3920,18 @@ class MainView extends _reactDefault.default.Component {
     }
     render() {
         const { movies , selectedMovie , user , regDesire  } = this.state;
+        if (regDesire) return(/*#__PURE__*/ _jsxRuntime.jsx(_registrationView.RegistrationView, {
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 56
+            },
+            __self: this
+        }));
         if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
             onLoggedIn: (user1)=>this.onLoggedIn(user1)
             ,
             onRegistered: (regDesire1)=>this.onRegistered(regDesire1)
             ,
-            __source: {
-                fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 57
-            },
-            __self: this
-        }));
-        if (regDesire) return(/*#__PURE__*/ _jsxRuntime.jsx(_registrationView.RegistrationView, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
                 lineNumber: 61
@@ -8287,7 +8287,7 @@ function LoginView(props) {
                 ]
             }),
             /*#__PURE__*/ _jsxRuntime.jsx("button", {
-                type: "submit",
+                type: "button",
                 onClick: handleRegister,
                 __source: {
                     fileName: "src/components/login-view/login-view.jsx",
@@ -8338,10 +8338,10 @@ function RegistrationView(props) {
     const [password, setPassword] = _react.useState('');
     const [email, setEmail] = _react.useState('');
     const [birthday, setBirthday] = _react.useState('');
-    const handleRegister = (e)=>{
+    const submitRegistration = (e)=>{
         e.preventDefault();
         console.log(username, password, email, birthday);
-        /* send a request to the server for authentication */ /* then call props.onLoggedIn(username) */ props.onRegister(username);
+        /* send a request to the server for authentication */ /* then call props.onLoggedIn(username) */ props.onLoggedIn(username);
     };
     return(/*#__PURE__*/ _jsxRuntime.jsxs("form", {
         __source: {
@@ -8436,7 +8436,7 @@ function RegistrationView(props) {
             }),
             /*#__PURE__*/ _jsxRuntime.jsx("button", {
                 type: "submit",
-                onClick: handleRegister,
+                onClick: submitRegistration,
                 __source: {
                     fileName: "src/components/registration-view/registration-view.jsx",
                     lineNumber: 36
