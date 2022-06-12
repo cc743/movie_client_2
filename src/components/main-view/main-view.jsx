@@ -53,7 +53,7 @@ class MainView extends React.Component {  //according to video, uses generic Rea
     const {movies, selectedMovie, user, regDesire} = this.state;
 
     if (regDesire) {
-      return <RegistrationView />
+      return <RegistrationView onLoggedIn={user => this.onLoggedIn(user)} onRegistered={regDesire => this.onRegistered(regDesire)}/>
     }
 
     if (!user) { 
