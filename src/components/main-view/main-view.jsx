@@ -1,4 +1,9 @@
 import React from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+
+import {RegistrationView} from '../registration-view/registration-view';
+import {LoginView} from '../login-view/login-view';
 import {MovieCard} from '../movie-card/movie-card';
 import {MovieView} from '../movie-view/movie-view';
 
@@ -7,13 +12,23 @@ class MainView extends React.Component {  //according to video, uses generic Rea
   constructor(){
     super();
     this.state = {
-      movies: [
-        {_id: 1, Title: "Inception", Description: "A group traverses dreams in search of clues", ImagePath: "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg"}, 
-        {_id: 2, Title: "The Shawshank Redemption", Description: "A film which takes place in a prison", ImagePath: "https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg"},
-        {_id: 3, Title: "Gladiator", Description: "An ancient Roman gladiator chooses to fight", ImagePath: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Queen_Elizabeth_II_in_March_2015.jpg"}
-      ],
-      selectedMovie: null
-    }
+      movies: [],
+      selectedMovie: null, 
+      user: null, 
+      regDesire: null,
+    };
+  }
+
+  componentDidMount(){
+    axios.get('https://evening-ridge-21612.herokuapp.com/movies/')
+      .then(response => {
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -22,16 +37,34 @@ class MainView extends React.Component {  //according to video, uses generic Rea
     });
   }
 
+  onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }
+
+  onRegistered(bool) {
+    this.setState({
+      regDesire: bool,
+    });
+  }
+
   render() {
-    const {movies, selectedMovie} = this.state;
+    const {movies, selectedMovie, user, regDesire} = this.state;
 
-    // if (selectedMovie) return <MovieView movieData={selectedMovie} />
+    if (!user) { 
+      return (
+        <LoginView onLoggedIn={user => this.onLoggedIn(user)} onRegistered={regDesire => this.onRegistered(regDesire)}/> 
+    )}
 
-    if (movies.length === 0) return <div className="main-view">The list is empty</div>;
+    if (regDesire) {
+      return <RegistrationView />
+    }
+
+    if (movies.length === 0) return <div className="main-view" />;
      
     return (
       <div className="main-view">
-        {/* {movies.map(movie => <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => {this.setSelectedMovie(movie)}} />)} */}
         {selectedMovie
           ? <MovieView movieData={selectedMovie} onBackClick={newSelectedMovie => {this.setSelectedMovie(newSelectedMovie); }}/>
           : movies.map(movie => (
@@ -44,3 +77,21 @@ class MainView extends React.Component {  //according to video, uses generic Rea
 }
 
 export default MainView;
+
+MainView.propTypes = {
+  movieData: PropTypes.arrayOf({
+    _id: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired, 
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired
+    }),
+    Director: {
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string.isRequired
+    },
+    ImagePath: PropTypes.string
+  }),
+  user: PropTypes.string
+};

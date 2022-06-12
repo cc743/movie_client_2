@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 
 import MainView from './components/main-view/main-view';
 
@@ -17,6 +17,7 @@ class MovieClientApplication extends React.Component {
 
 //finds the root of your app
 const container = document.getElementsByClassName('app-container')[0];
+const root = createRoot(container);
 
 //Tells React to render your app in the root of the DOM element
-ReactDOM.render(React.createElement(MovieClientApplication), container);
+root.render(React.createElement(MovieClientApplication));
