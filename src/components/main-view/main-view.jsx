@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'; 
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
@@ -17,7 +19,7 @@ class MainView extends React.Component {  //according to video, uses generic Rea
       user: null, 
       regDesire: null,
     };
-  }
+  } 
 
   componentDidMount(){
     axios.get('https://evening-ridge-21612.herokuapp.com/movies/')
@@ -64,14 +66,22 @@ class MainView extends React.Component {  //according to video, uses generic Rea
     if (movies.length === 0) return <div className="main-view" />;
      
     return (
-      <div className="main-view">
+      <Row className="main-view justify-content-md-center">
         {selectedMovie
-          ? <MovieView movieData={selectedMovie} onBackClick={newSelectedMovie => {this.setSelectedMovie(newSelectedMovie); }}/>
-          : movies.map(movie => (
-            <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => {this.setSelectedMovie(movie)}} />
-          ))
+          ? (
+            <Col md={8}>
+              <MovieView movieData={selectedMovie} onBackClick={newSelectedMovie => {this.setSelectedMovie(newSelectedMovie); }}/>
+            </Col>
+          )
+          : (
+            movies.map(movie => (
+              <Col md={3}>
+                <MovieCard key={movie._id} movieData={movie} onMovieClick={(newSelectedMovie) => {this.setSelectedMovie(newSelectedMovie)}} /> 
+              </Col>
+            ))
+          )
         }
-      </div>
+      </Row>
     );
   }
 }

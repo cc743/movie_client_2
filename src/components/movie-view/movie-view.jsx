@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; 
+import {Button, Card, Row, Col} from 'react-bootstrap'; 
 
 export class MovieView extends React.Component {
 
@@ -7,29 +8,16 @@ export class MovieView extends React.Component {
     const {movieData, onBackClick} = this.props;
 
     return (
-      <div className="movie-view">
-        <div className="movie-poster">
-          <img src={movieData.ImagePath}/>
-        </div>
-        <div className='movie-title'>
-          <span className="label">Title: </span>
-          <span className="value">{movieData.Title}</span>
-        </div>
-        <div className="movie-description">
-          <span className='label'>Description: </span>
-          <span className='value'>{movieData.Description}</span>
-        </div>
-        <div className="movie-director">
-          <span className='label'>Director: </span>
-          <span className='value'>{movieData.Director.Name}</span>
-        </div>
-        <div className="movie-genre">
-          <span className='label'>Genre: </span>
-          <span className='value'>{movieData.Genre.Name}</span>
-        </div>
-        <button onClick={() => {onBackClick(null)}}>Back</button>
-
-      </div>
+      <Card>
+        <Card.Img variant="top" src={movieData.ImagePath} />
+        <Card.Body>
+          <Card.Title>{movieData.Title}</Card.Title>
+          <Card.Text>Description: {movieData.Description}</Card.Text>
+          <Card.Text>Director: {movieData.Director.Name}</Card.Text>
+          <Card.Text>Genre: {movieData.Genre.Name}</Card.Text>
+          <Button onClick={() => {onBackClick(null)}} variant="link">Back</Button>
+        </Card.Body>
+      </Card>
     );
   }
 
