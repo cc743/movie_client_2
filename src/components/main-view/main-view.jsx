@@ -8,6 +8,7 @@ import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
 import {MovieCard} from '../movie-card/movie-card';
 import {MovieView} from '../movie-view/movie-view';
+import './main-view.scss';
 
 class MainView extends React.Component {  //according to video, uses generic React Component template.  Note: In javaScript, classes are a template for creating objects
 
@@ -22,7 +23,7 @@ class MainView extends React.Component {  //according to video, uses generic Rea
   } 
 
   componentDidMount(){
-    axios.get('https://evening-ridge-21612.herokuapp.com/movies/')
+    axios.get('https://evening-ridge-21612.herokuapp.com/movies/') 
       .then(response => {
         this.setState({
           movies: response.data
@@ -69,13 +70,13 @@ class MainView extends React.Component {  //according to video, uses generic Rea
       <Row className="main-view justify-content-md-center">
         {selectedMovie
           ? (
-            <Col md={8}>
+            <Col xs={6} md={6}>
               <MovieView movieData={selectedMovie} onBackClick={newSelectedMovie => {this.setSelectedMovie(newSelectedMovie); }}/>
             </Col>
           )
           : (
             movies.map(movie => (
-              <Col md={3}>
+              <Col xs={6} sm={3} md={3}> 
                 <MovieCard key={movie._id} movieData={movie} onMovieClick={(newSelectedMovie) => {this.setSelectedMovie(newSelectedMovie)}} /> 
               </Col>
             ))

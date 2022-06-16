@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'; 
 import {Button, Card, Row, Col} from 'react-bootstrap'; 
+import './movie-view.scss';
 
 export class MovieView extends React.Component {
 
@@ -8,8 +9,10 @@ export class MovieView extends React.Component {
     const {movieData, onBackClick} = this.props;
 
     return (
-      <Card>
-        <Card.Img variant="top" src={movieData.ImagePath} />
+      <Card border="primary" className="movie-card"> 
+        <Col md={6} className="movie-poster">
+          <Card.Img variant="top" crossOrigin='anonymous' src={movieData.ImagePath} /> 
+        </Col>
         <Card.Body>
           <Card.Title>{movieData.Title}</Card.Title>
           <Card.Text>Description: {movieData.Description}</Card.Text>
