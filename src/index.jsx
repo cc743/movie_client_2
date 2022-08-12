@@ -1,5 +1,5 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import {createRoot} from 'react-dom/client'; 
 import Container from 'react-bootstrap/Container'; 
 
 import MainView from './components/main-view/main-view';
@@ -14,8 +14,7 @@ class MovieClientApplication extends React.Component {
       <Container>
         <MainView />
       </Container>
-    );
-  }
+  )}
 }
 
 //finds the root of your app

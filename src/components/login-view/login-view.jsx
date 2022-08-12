@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {Form, Button, Card, CardGroup, Container, Col, Row} from 'react-bootstrap';
+import axios from 'axios';
 
 import {RegistrationView} from '../registration-view/registration-view';
 import './login-view.scss';
@@ -11,11 +12,19 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    /* send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username); 
-  }
+    /*Send a request to the server for authentication*/
+    axios.post('https://evening-ridge-21612.herokuapp.com/login/', {
+      Username: username,
+      Password: password
+    })
+    .then(response => {
+      const data = response.data;
+      props.onLoggedIn(data);
+    })
+    .catch(e => {
+      console.log('no such user')
+    });
+  };
 
   //this section of code may need to be revisited at section 3.6 - Client Side App Routing in order to have a functional way of getting to the registration page
   const handleRegister = (e) => {
@@ -43,7 +52,7 @@ export function LoginView(props) {
                     <Form.Control type="password" onChange={e => setPassword(e.target.value)}/>
                   </Form.Group>
                   <Button variant="primary" type="submit" onClick={handleSubmit} className="submit-button">
-                    Submit
+                    Submit 
                   </Button>
                 </Form>
               </Card.Body>
@@ -54,40 +63,14 @@ export function LoginView(props) {
       <Row>
         <Col md={4}>
           <Button type="button" onClick={handleRegister} className="register-button">
-            Register
+            New User? Register Here
           </Button>
         </Col>
       </Row>
     </Container>
   )
 
-  // return (
-  //   <div className="login-view">
-  //     <Col md={4}>
-  //       <Form>
-  //         <Form.Group controlId='formUsername'> 
-  //           <Form.Label>Username: </Form.Label>
-  //           <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
-  //         </Form.Group>
-
-  //         <Form.Group controlId='formPassword'>
-  //           <Form.Label>Password: </Form.Label>
-  //           <Form.Control type="password" onChange={e => setPassword(e.target.value)}/>
-  //         </Form.Group>
-  //         <Button variant="primary" type="submit" onClick={handleSubmit} className="submit-button">
-  //           Submit
-  //         </Button>
-  //       </Form>
-  //     </Col>
-  //     <Col md={4}>
-  //       <Button type="button" onClick={handleRegister} className="register-button"> 
-  //         Register
-  //       </Button>
-  //     </Col>
-  //   </div>
-  // )
-
-}
+} 
 
 LoginView.propTypes = {
   user: PropTypes.shape({
